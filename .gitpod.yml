@@ -2,8 +2,9 @@
 tasks:
   - init:  |
       sudo pip3 install streamlit
-      streamlit hello
-      
+      sudo apt install -y mosquitto
+      sudo apt install mosquitto-clients
+      sudo service mosquitto start
       
     command: echo 'start script'
 
