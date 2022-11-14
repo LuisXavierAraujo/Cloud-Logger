@@ -2,6 +2,7 @@
 tasks:
   - init:  |
       sudo pip3 install streamlit
+      streamlit hello
       
       
     command: echo 'start script'
