@@ -5,7 +5,7 @@ tasks:
       sudo apt install -y mosquitto
       sudo apt install mosquitto-clients
       sudo service mosquitto start
-      
+      sudo systemctl enable mosquitto
     command: echo 'start script'
 
 # List the ports to expose. Learn more https://www.gitpod.io/docs/config-ports/
