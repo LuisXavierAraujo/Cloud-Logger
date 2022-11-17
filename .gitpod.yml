@@ -16,6 +16,11 @@ tasks:
 
 # List the ports to expose. Learn more https://www.gitpod.io/docs/config-ports/
 ports:
+  - port: 1883
+    onOpen: ignore
+    
   - port: 8501
+    name: Web App
+    description: Computer's Microphone Signal in Real Time
     onOpen: open-browser
     visibility : public
