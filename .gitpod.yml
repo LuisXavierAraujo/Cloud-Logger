@@ -5,7 +5,7 @@ tasks:
       sudo apt install -y mosquitto
       sudo apt install mosquitto-clients
       sudo service mosquitto start
-      sudo service mosquitto start
+      sudo service mosquitto status
       sudo pip3 install paho-mqtt
       git clone https://github.com/eclipse/paho.mqtt.python.git
       cd paho.mqtt.python
