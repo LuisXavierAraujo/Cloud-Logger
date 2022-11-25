@@ -5,10 +5,10 @@ Created on Fri Nov 25 18:09:19 2022
 @author: luise
 """
 
-import sounddevice as sd
-from scipy.io.wavfile import write
-import librosa as lib
-import numpy as np
+#import sounddevice as sd
+#from scipy.io.wavfile import write
+#import librosa as lib
+#import numpy as np
 
 fs = 44100
 second = 3
