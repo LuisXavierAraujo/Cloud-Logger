@@ -17,7 +17,8 @@ def on_connect(client, userdata, flags, rc):
 def on_message(client, userdata, msg):
     print(msg.topic)
     value = list(msg.payload)
-    print(value[0])
+    for i in range(len(value)):
+        print(value[i])
 
 client = mqtt.Client()
 client.on_connect = on_connect
