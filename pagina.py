@@ -9,7 +9,7 @@ import paho.mqtt.client as mqtt
 import threading
 
 client = mqtt.Client()
-client.connect("mqtt.eclipseprojects.io", 1883, 60)
+client.connect_async("mqtt.eclipseprojects.io", 1883, 60)
 
 def on_connect(client, userdata, flags, rc):
     print("streamlit subscribed ")
