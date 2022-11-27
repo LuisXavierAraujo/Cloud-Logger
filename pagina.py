@@ -38,7 +38,6 @@ class publicar:
         
 
 #botão
-st.button('iniciar gravação')
 if st.button('iniciar gravação'):
     subscrever()
     publicar()
