@@ -24,6 +24,7 @@ class subscrever:
         client.on_connect = on_connect
         client.on_message = on_message
         print("subscribing")
+        st.write('subscreve')
         client.loop_forever()
     
     def __init__(self):
@@ -31,7 +32,8 @@ class subscrever:
         t.start()
 class publicar:
     def publish(self):        
-        client.publish("luisaraujo", 'pedido')
+        client.publish("luisaraujo.pedido", 'pedido')
+        st.write('publica')
     def __init__(self):
         t = threading.Thread(target=self.publish())
         t.start()
