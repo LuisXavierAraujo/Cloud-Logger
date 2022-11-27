@@ -5,6 +5,7 @@ Created on Sun Nov 27 20:51:34 2022
 @author: luise
 """
 import streamlit as st
+sudo pip3 install paho-mqtt
 #import paho.mqtt.client as mqtt
 import threading
 
