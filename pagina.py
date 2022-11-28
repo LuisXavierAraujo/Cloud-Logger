@@ -35,7 +35,7 @@ def MQTT_TH(client):
         print(msg)
 
     print('Incializing MQTT')
-    client = mqtt.Client()
+    #client = mqtt.Client()
     client.on_connect = on_connect
     client.on_message = on_message
   
