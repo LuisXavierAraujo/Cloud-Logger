@@ -31,7 +31,7 @@ def MQTT_TH(client):
     def on_message(client, userdata, msg):
         #print(msg.topic+" "+str(msg.payload))
         #print('Message received: ' + str(msg.payload))
-        st.wrtite(msg)
+        st.write(msg)
         print(msg)
 
     print('Incializing MQTT')
@@ -54,9 +54,7 @@ if 'mqttThread' not in st.session_state:
 #botão
 if st.checkbox('iniciar gravação'):
     st.session_state.mqttClient.publish("luisaraujo/pedido", payload="start")
-    st.write("a gravar")
-else:
-    st.write("nada")
+    
     
 
 #df = pd.DataFrame(columns = ['Teste1', 'Teste2', 'Teste3'])
