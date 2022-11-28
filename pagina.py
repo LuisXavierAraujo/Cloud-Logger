@@ -20,8 +20,6 @@ a = 'adeus'
 def MQTT_TH(client):    
     def on_connect(client, userdata, flags, rc):
         print("Connected with result code "+str(rc))
-        global a 
-        a = 'bom dia'
         # Subscribing in on_connect() means that if we lose the connection and
         # reconnect then subscriptions will be renewed.        
         client.subscribe("luisaraujo/dados")
@@ -29,7 +27,8 @@ def MQTT_TH(client):
     # The callback for when a PUBLISH message is received from the server.
     def on_message(client, userdata, msg):
         global a
-        a = 'ola'
+        a = str(msg.payload)
+        print('ola')
         #print('Message received: ' + str(msg.payload))
         
 
