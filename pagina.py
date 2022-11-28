@@ -32,6 +32,7 @@ def MQTT_TH(client):
         #print(msg.topic+" "+str(msg.payload))
         #print('Message received: ' + str(msg.payload))
         st.wrtite(msg)
+        print(msg)
 
     print('Incializing MQTT')
     client = mqtt.Client()
