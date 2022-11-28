@@ -16,11 +16,12 @@ from streamlit_autorefresh import st_autorefresh
 
 st_autorefresh(interval=5000)
 a = 'adeus'
-GITPOD_b = ''
+
 #MQTT Thread Function
-def MQTT_TH(client):    
+def MQTT_TH(client):   
+
     def on_connect(client, userdata, flags, rc):
-        print("Connected with result code "+str(rc))
+        st.write("Connected with result code "+str(rc))
         # Subscribing in on_connect() means that if we lose the connection and
         # reconnect then subscriptions will be renewed.        
         client.subscribe("luisaraujo/dados")
@@ -29,20 +30,15 @@ def MQTT_TH(client):
     def on_message(client, userdata, msg):
         global a
         a = str(msg.payload)
-        GITPOD_b = str(msg.payload)
-        print('oi')
-        print(str(msg.payload))
+        st.write(a)
         #print('Message received: ' + str(msg.payload))
         
-
-    print('Incializing MQTT')
+    st.write('Incializing MQTT')
     #client = mqtt.Client()
     client.on_connect = on_connect
+    st.write('Is it there?')
     client.on_message = on_message
-  
     client.connect("mqtt.eclipseprojects.io", 1883, 60)
-    
-   
     client.loop_forever()
 
 if 'mqttThread' not in st.session_state:
@@ -51,34 +47,24 @@ if 'mqttThread' not in st.session_state:
     add_script_run_ctx(st.session_state.mqttThread)
     st.session_state.mqttThread.start()
     
-
-
 #botão
 if st.checkbox('iniciar gravação'):
     st.session_state.mqttClient.publish("luisaraujo/pedido", payload="start")
     st.write(a)
-    print(a)
-    print(GITPOD_b)
-    st.write(GITPOD_b)
     
-    
-    
-    
-
 #df = pd.DataFrame(columns = ['Teste1', 'Teste2', 'Teste3'])
 #df = df.append({'Teste1' : "olá", 'Teste2' : 77, 'Teste3': 56}, ignore_index = True)
 
 #def convert_df(df):
     # IMPORTANT: Cache the conversion to prevent computation on every rerun
-#    return df.to_csv().encode('utf-8')
-
+    #return df.to_csv().encode('utf-8')
 
 #csv = convert_df(df)
 
 #st.download_button(
 #    label="Download data as CSV",
 #    data=csv,
-#    file_name='large_df.csv',
+#    file_name='data.csv',
 #    mime='text/csv',
 #)
 
