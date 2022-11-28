@@ -26,6 +26,7 @@ class subscrever:
         print("subscribing")
         st.write('subscreve')
         client.loop_forever()
+        st.write("loop")
     
     def __init__(self):
         t = threading.Thread(target=self.subscribe())
