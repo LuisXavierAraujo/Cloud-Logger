@@ -16,6 +16,7 @@ from streamlit_autorefresh import st_autorefresh
 
 st_autorefresh(interval=5000)
 a = 'adeus'
+GITPOD_b = ''
 #MQTT Thread Function
 def MQTT_TH(client):    
     def on_connect(client, userdata, flags, rc):
@@ -28,6 +29,7 @@ def MQTT_TH(client):
     def on_message(client, userdata, msg):
         global a
         a = str(msg.payload)
+        GITPOD_b = str(msg.payload)
         print('oi')
         print(str(msg.payload))
         #print('Message received: ' + str(msg.payload))
@@ -56,6 +58,8 @@ if st.checkbox('iniciar gravação'):
     st.session_state.mqttClient.publish("luisaraujo/pedido", payload="start")
     st.write(a)
     print(a)
+    print(GITPOD_b)
+    st.write(GITPOD_b)
     
     
     
