@@ -5,42 +5,21 @@ Created on Sun Nov 27 20:51:34 2022
 @author: luise
 """
 import streamlit as st
-import paho.mqtt.client as mqtt
-import threading
+import pandas as pd
 
-client = mqtt.Client()
-client.connect_async("mqtt.eclipseprojects.io", 1883, 60)
+df = pd.DataFrame(columns = ['Teste1', 'Teste2', 'Teste3'])
 
-def on_connect(client, userdata, flags, rc):
-    print("streamlit subscribed ")
-    client.subscribe("luisaraujo.dados")
- 
-def on_message(client, userdata, msg):
-    print(msg.topic)
-    
-class subscrever:
-    def subscribe(self):
-        client = mqtt.Client()
-        client.on_connect = on_connect
-        client.on_message = on_message
-        print("subscribing")
-        st.write('subscreve')
-        client.loop_forever()
-        st.write("loop")
-    
-    def __init__(self):
-        t = threading.Thread(target=self.subscribe())
-        t.start()
-class publicar:
-    def publish(self):        
-        client.publish("luisaraujo.pedido", 'pedido')
-        st.write('publica')
-    def __init__(self):
-        t = threading.Thread(target=self.publish())
-        t.start()
-        
+def convert_df(df):
+    # IMPORTANT: Cache the conversion to prevent computation on every rerun
+    return df.to_csv().encode('utf-8')
 
-#botão
-if st.button('iniciar gravação'):
-    subscrever()
-    publicar()
+
+csv = convert_df(df)
+df = df.append({'Teste1' : "olá", 'Teste2' : 77, 'Teste3': 56}, ignore_index = True)
+
+st.download_button(
+    label="Download data as CSV",
+    data=csv,
+    file_name='large_df.csv',
+    mime='text/csv',
+)
