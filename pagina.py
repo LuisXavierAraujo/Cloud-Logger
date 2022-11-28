@@ -28,7 +28,7 @@ def MQTT_TH(client):
     def on_message(client, userdata, msg):
         global a
         a = str(msg.payload)
-        print('ola')
+        print('oi')
         #print('Message received: ' + str(msg.payload))
         
 
