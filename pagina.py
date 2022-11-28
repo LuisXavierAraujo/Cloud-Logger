@@ -51,20 +51,20 @@ if 'mqttThread' not in st.session_state:
 if st.checkbox('iniciar gravação'):
     st.session_state.mqttClient.publish("luisaraujo.pedido", "start")
 
-df = pd.DataFrame(columns = ['Teste1', 'Teste2', 'Teste3'])
-df = df.append({'Teste1' : "olá", 'Teste2' : 77, 'Teste3': 56}, ignore_index = True)
+#df = pd.DataFrame(columns = ['Teste1', 'Teste2', 'Teste3'])
+#df = df.append({'Teste1' : "olá", 'Teste2' : 77, 'Teste3': 56}, ignore_index = True)
 
-def convert_df(df):
+#def convert_df(df):
     # IMPORTANT: Cache the conversion to prevent computation on every rerun
-    return df.to_csv().encode('utf-8')
+#    return df.to_csv().encode('utf-8')
 
 
-csv = convert_df(df)
+#csv = convert_df(df)
 
-st.download_button(
-    label="Download data as CSV",
-    data=csv,
-    file_name='large_df.csv',
-    mime='text/csv',
-)
+#st.download_button(
+#    label="Download data as CSV",
+#    data=csv,
+#    file_name='large_df.csv',
+#    mime='text/csv',
+#)
 
