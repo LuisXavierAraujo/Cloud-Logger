@@ -1,12 +1,9 @@
 # List the start up tasks. Learn more https://www.gitpod.io/docs/config-start-tasks/
 tasks:
   - init:  |
-      python -m pip install librosa
-      python -m pip install scipy
-      sudo apt-get install libportaudio2
-      sudo apt-get install libsndfile1
-      pip install sounddevice     
+      python -m pip install scipy   
       sudo pip3 install streamlit
+      from streamlit.scriptrunner.script_run_context import add_script_run_ctx
       sudo apt install -y mosquitto
       sudo apt install mosquitto-clients
       sudo service mosquitto start
