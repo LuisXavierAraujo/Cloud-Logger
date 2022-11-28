@@ -1,13 +1,11 @@
 # List the start up tasks. Learn more https://www.gitpod.io/docs/config-start-tasks/
-
-#Instaladores não necessários
-#sudo apt install -y mosquitto
-#sudo apt install mosquitto-clients
-#sudo service mosquitto start
-#sudo service mosquitto status
 tasks:
-  - init:
-      pip install pandas  
+  - init:  |
+      python -m pip install librosa
+      python -m pip install scipy
+      sudo apt-get install libportaudio2
+      sudo apt-get install libsndfile1
+      pip install sounddevice     
       sudo pip3 install streamlit
       sudo apt install -y mosquitto
       sudo apt install mosquitto-clients
@@ -18,9 +16,7 @@ tasks:
       cd paho.mqtt.python
       python setup.py install
       cd ..
-
     command: streamlit run pagina.py
-
 # List the ports to expose. Learn more https://www.gitpod.io/docs/config-ports/
 ports:
   # default port?
@@ -30,5 +26,3 @@ ports:
   - port: 8501
     name: Web App
     description: Computer's Microphone Signal in Real Time
-    onOpen: open-browser
-    visibility : public
