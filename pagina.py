@@ -21,8 +21,9 @@ def MQTT_TH(client):
         print("Connected with result code "+str(rc))
         # Subscribing in on_connect() means that if we lose the connection and
         # reconnect then subscriptions will be renewed.
+        st.write("connect")
         client.subscribe("luisaraujo.dados")
-        st.write("ola")
+        st.write("subscribe")
  
     # The callback for when a PUBLISH message is received from the server.
     def on_message(client, userdata, msg):
