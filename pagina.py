@@ -9,14 +9,12 @@ import pandas as pd
 
 import streamlit as st
 import paho.mqtt.client as mqtt
-import numpy
 import threading as th
 from streamlit.runtime.scriptrunner.script_run_context import add_script_run_ctx
 from streamlit_autorefresh import st_autorefresh
 
 st_autorefresh(interval=5000)
 #MQTT Thread Function
-
 def MQTT_TH(client):    
     def on_connect(client, userdata, flags, rc):
         print("Connected with result code "+str(rc))
@@ -26,9 +24,7 @@ def MQTT_TH(client):
  
     # The callback for when a PUBLISH message is received from the server.
     def on_message(client, userdata, msg):
-        z = numpy.array(msg)
-        st.write("message")
-        #print(msg.topic+" "+str(z))
+        print(array(msg))
         #print('Message received: ' + str(msg.payload))
 
     print('Incializing MQTT')
@@ -51,6 +47,7 @@ if 'mqttThread' not in st.session_state:
 #botão
 if st.checkbox('iniciar gravação'):
     st.session_state.mqttClient.publish("luisaraujo/pedido", payload="start")
+    
     
     
     
