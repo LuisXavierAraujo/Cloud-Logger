@@ -10,7 +10,7 @@ import pandas as pd
 import streamlit as st
 import paho.mqtt.client as mqtt
 import threading as th
-from streamlit.runtime.scriptrunner.script_run_context import get_script_run_ctx
+from streamlit.runtime.scriptrunner.script_run_context import add_script_run_ctx
 
 
 #MQTT Thread Function
@@ -40,7 +40,7 @@ def MQTT_TH(client):
 if 'mqttThread' not in st.session_state:
     st.session_state.mqttClient = mqtt.Client()
     st.session_state.mqttThread = th.Thread(target=MQTT_TH, args=[st.session_state.mqttClient])
-    get_script_run_ctx(st.session_state.mqttThread)
+    add_script_run_ctx(st.session_state.mqttThread)
     st.session_state.mqttThread.start()
     
 
