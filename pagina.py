@@ -14,7 +14,6 @@ from streamlit.runtime.scriptrunner.script_run_context import add_script_run_ctx
 from streamlit_autorefresh import st_autorefresh
 
 st_autorefresh(interval=5 * 60 * 1000)
-st.write("ola")
 #MQTT Thread Function
 
 def MQTT_TH(client):    
@@ -50,6 +49,7 @@ if 'mqttThread' not in st.session_state:
 #botão
 if st.checkbox('iniciar gravação'):
     st.session_state.mqttClient.publish("luisaraujo.pedido", "start")
+    st.write("ola")
 
 #df = pd.DataFrame(columns = ['Teste1', 'Teste2', 'Teste3'])
 #df = df.append({'Teste1' : "olá", 'Teste2' : 77, 'Teste3': 56}, ignore_index = True)
