@@ -13,19 +13,25 @@ import threading as th
 from streamlit.runtime.scriptrunner.script_run_context import add_script_run_ctx
 from streamlit_autorefresh import st_autorefresh
 
+
 st_autorefresh(interval=5000)
+
 #MQTT Thread Function
 def MQTT_TH(client):    
     def on_connect(client, userdata, flags, rc):
         print("Connected with result code "+str(rc))
+        global a 
+        a = 'bom dia'
         # Subscribing in on_connect() means that if we lose the connection and
         # reconnect then subscriptions will be renewed.        
         client.subscribe("luisaraujo/dados")
  
     # The callback for when a PUBLISH message is received from the server.
     def on_message(client, userdata, msg):
-        print(array(msg))
+        global a
+        a = 'ola'
         #print('Message received: ' + str(msg.payload))
+        
 
     print('Incializing MQTT')
     #client = mqtt.Client()
@@ -43,10 +49,11 @@ if 'mqttThread' not in st.session_state:
     st.session_state.mqttThread.start()
     
 
-
+a = ''
 #botão
 if st.checkbox('iniciar gravação'):
     st.session_state.mqttClient.publish("luisaraujo/pedido", payload="start")
+    st.write(a)
     
     
     
