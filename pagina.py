@@ -23,7 +23,7 @@ def MQTT_TH(client):
         # reconnect then subscriptions will be renewed.
         st.write("connect")
         
-        client.subscribe("luisaraujo.dados")
+        client.subscribe("luisaraujo/dados")
         st.write("subscribe")
         print("chegou")
  
@@ -53,7 +53,7 @@ if 'mqttThread' not in st.session_state:
 
 #botão
 if st.checkbox('iniciar gravação'):
-    st.session_state.mqttClient.publish("luisaraujo.pedido", payload="start")
+    st.session_state.mqttClient.publish("luisaraujo/pedido", payload="start")
     
 
 #df = pd.DataFrame(columns = ['Teste1', 'Teste2', 'Teste3'])
