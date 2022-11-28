@@ -22,6 +22,7 @@ def MQTT_TH(client):
         # Subscribing in on_connect() means that if we lose the connection and
         # reconnect then subscriptions will be renewed.
         client.subscribe("luisaraujo.dados")
+        st.write("ola")
  
     # The callback for when a PUBLISH message is received from the server.
     def on_message(client, userdata, msg):
@@ -49,7 +50,7 @@ if 'mqttThread' not in st.session_state:
 #botão
 if st.checkbox('iniciar gravação'):
     st.session_state.mqttClient.publish("luisaraujo.pedido", "start")
-    st.write("ola")
+    
 
 #df = pd.DataFrame(columns = ['Teste1', 'Teste2', 'Teste3'])
 #df = df.append({'Teste1' : "olá", 'Teste2' : 77, 'Teste3': 56}, ignore_index = True)
