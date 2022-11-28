@@ -11,7 +11,9 @@ import streamlit as st
 import paho.mqtt.client as mqtt
 import threading as th
 from streamlit.runtime.scriptrunner.script_run_context import add_script_run_ctx
+from streamlit_autorefresh import st_autorefresh
 
+st_autorefresh(interval=5 * 60 * 1000)
 
 #MQTT Thread Function
 
