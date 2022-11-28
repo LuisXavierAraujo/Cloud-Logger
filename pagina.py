@@ -8,6 +8,7 @@ import streamlit as st
 import pandas as pd
 
 df = pd.DataFrame(columns = ['Teste1', 'Teste2', 'Teste3'])
+df = df.append({'Teste1' : "olá", 'Teste2' : 77, 'Teste3': 56}, ignore_index = True)
 
 def convert_df(df):
     # IMPORTANT: Cache the conversion to prevent computation on every rerun
@@ -15,7 +16,6 @@ def convert_df(df):
 
 
 csv = convert_df(df)
-df = df.append({'Teste1' : "olá", 'Teste2' : 77, 'Teste3': 56}, ignore_index = True)
 
 st.download_button(
     label="Download data as CSV",
