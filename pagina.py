@@ -29,6 +29,7 @@ def MQTT_TH(client):
         global a
         a = str(msg.payload)
         print('oi')
+        print(str(msg.payload))
         #print('Message received: ' + str(msg.payload))
         
 
