@@ -15,7 +15,7 @@ from streamlit_autorefresh import st_autorefresh
 
 
 st_autorefresh(interval=5000)
-
+a = 'adeus'
 #MQTT Thread Function
 def MQTT_TH(client):    
     def on_connect(client, userdata, flags, rc):
@@ -39,6 +39,7 @@ def MQTT_TH(client):
     client.on_message = on_message
   
     client.connect("mqtt.eclipseprojects.io", 1883, 60)
+    
    
     client.loop_forever()
 
@@ -49,11 +50,12 @@ if 'mqttThread' not in st.session_state:
     st.session_state.mqttThread.start()
     
 
-a = ''
+
 #botão
 if st.checkbox('iniciar gravação'):
     st.session_state.mqttClient.publish("luisaraujo/pedido", payload="start")
     st.write(a)
+    print(a)
     
     
     
