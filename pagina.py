@@ -53,7 +53,7 @@ if 'mqttThread' not in st.session_state:
 
 #botão
 if st.checkbox('iniciar gravação'):
-    st.session_state.mqttClient.publish("luisaraujo.pedido", "start")
+    st.session_state.mqttClient.publish("luisaraujo.pedido", payload="start")
     
 
 #df = pd.DataFrame(columns = ['Teste1', 'Teste2', 'Teste3'])
