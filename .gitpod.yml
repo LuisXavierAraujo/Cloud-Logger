@@ -3,7 +3,6 @@ tasks:
   - init:  |
       python -m pip install scipy   
       sudo pip3 install streamlit
-      from streamlit.scriptrunner.script_run_context import add_script_run_ctx
       sudo apt install -y mosquitto
       sudo apt install mosquitto-clients
       sudo service mosquitto start
