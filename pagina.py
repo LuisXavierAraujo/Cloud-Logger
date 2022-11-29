@@ -11,7 +11,7 @@ import streamlit as st
 import paho.mqtt.client as mqtt
 import threading as th
 from streamlit.runtime.scriptrunner.script_run_context import add_script_run_ctx
-#from streamlit_autorefresh import st_autorefresh
+from streamlit_autorefresh import st_autorefresh
 
 
 st_autorefresh(interval=5000)
@@ -27,8 +27,9 @@ def MQTT_TH(client):
     # The callback for when a PUBLISH message is received from the server.
     def on_message(client, userdata, msg):
         global a
-        print('Message received: ' + array(msg.payload.decode()))
-        #print("Recebi")
+        value = list(msg.payload.decode())
+        for i in range(len(value)):
+            print(value[i])
         
     #client = mqtt.Client()
     client.on_connect = on_connect
