@@ -33,7 +33,7 @@ def MQTT_TH(client):
         #bytearray ver esta parte do envio de daos -> receber uma string aqui
         #<- enviar bytearray par ao outro lado
         a_bytearray = bytearray(pm)
-        client.publish("luisaraujo/dados", "hello")
+        client.publish("luisaraujo/dados", a_bytearray)
 
     print('Incializing MQTT')
     #client = mqtt.Client()
