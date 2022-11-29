@@ -26,10 +26,9 @@ def MQTT_TH(client):
  
     # The callback for when a PUBLISH message is received from the server.
     def on_message(client, userdata, msg):
-        global a
-        value = list(msg.payload.decode())
-        for i in range(len(value)):
-            print(value[i])
+        st-session_state.value = list(msg.payload.decode())
+        #for i in range(len(value)):
+        #   print(value[i])
         
     #client = mqtt.Client()
     client.on_connect = on_connect
@@ -47,6 +46,7 @@ if 'mqttThread' not in st.session_state:
 if st.checkbox('iniciar gravação'):
     st.session_state.mqttClient.publish("luisaraujo/pedido", payload="start")
     print("Pedido Enviado")
+    print(st.session_state.value)
     
 #df = pd.DataFrame(columns = ['Teste1', 'Teste2', 'Teste3'])
 #df = df.append({'Teste1' : "olá", 'Teste2' : 77, 'Teste3': 56}, ignore_index = True)
