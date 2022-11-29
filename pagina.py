@@ -26,7 +26,7 @@ def MQTT_TH(client):
  
     # The callback for when a PUBLISH message is received from the server.
     def on_message(client, userdata, msg):
-        st-session_state.value = list(msg.payload.decode())
+        st.session_state.value = list(msg.payload.decode())
         #for i in range(len(value)):
         #   print(value[i])
         
