@@ -14,7 +14,7 @@ from streamlit.runtime.scriptrunner.script_run_context import add_script_run_ctx
 #from streamlit_autorefresh import st_autorefresh
 
 
-#st_autorefresh(interval=5000)
+st_autorefresh(interval=5000)
 
 #MQTT Thread Function
 def MQTT_TH(client):   
