@@ -20,7 +20,6 @@ from streamlit.runtime.scriptrunner.script_run_context import add_script_run_ctx
 def MQTT_TH(client):   
 
     def on_connect(client, userdata, flags, rc):
-        st.write("Connected with result code "+str(rc))
         # Subscribing in on_connect() means that if we lose the connection and
         # reconnect then subscriptions will be renewed.        
         client.subscribe("luisaraujo/dados")
@@ -28,8 +27,8 @@ def MQTT_TH(client):
     # The callback for when a PUBLISH message is received from the server.
     def on_message(client, userdata, msg):
         global a
-        #print('Message received: ' + str(msg.payload))
-        print("Recebi")
+        print('Message received: ' + str(msg.payload.decode()))
+        #print("Recebi")
         
     #client = mqtt.Client()
     client.on_connect = on_connect
