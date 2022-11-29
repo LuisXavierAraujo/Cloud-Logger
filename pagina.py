@@ -27,7 +27,7 @@ def MQTT_TH(client):
     # The callback for when a PUBLISH message is received from the server.
     def on_message(client, userdata, msg):
         global a
-        print('Message received: ' + str(msg.payload.decode()))
+        print('Message received: ' + array(msg.payload.decode()))
         #print("Recebi")
         
     #client = mqtt.Client()
