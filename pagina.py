@@ -11,11 +11,10 @@ import streamlit as st
 import paho.mqtt.client as mqtt
 import threading as th
 from streamlit.runtime.scriptrunner.script_run_context import add_script_run_ctx
-from streamlit_autorefresh import st_autorefresh
+#from streamlit_autorefresh import st_autorefresh
 
 
-st_autorefresh(interval=5000)
-a = 'adeus'
+#st_autorefresh(interval=5000)
 
 #MQTT Thread Function
 def MQTT_TH(client):   
@@ -29,14 +28,11 @@ def MQTT_TH(client):
     # The callback for when a PUBLISH message is received from the server.
     def on_message(client, userdata, msg):
         global a
-        a = str(msg.payload)
-        st.write(a)
         #print('Message received: ' + str(msg.payload))
+        print("Recebi")
         
-    st.write('Incializing MQTT')
     #client = mqtt.Client()
     client.on_connect = on_connect
-    st.write('Is it there?')
     client.on_message = on_message
     client.connect("mqtt.eclipseprojects.io", 1883, 60)
     client.loop_forever()
@@ -50,7 +46,7 @@ if 'mqttThread' not in st.session_state:
 #botão
 if st.checkbox('iniciar gravação'):
     st.session_state.mqttClient.publish("luisaraujo/pedido", payload="start")
-    st.write(a)
+    print("Pedido Enviado")
     
 #df = pd.DataFrame(columns = ['Teste1', 'Teste2', 'Teste3'])
 #df = df.append({'Teste1' : "olá", 'Teste2' : 77, 'Teste3': 56}, ignore_index = True)
