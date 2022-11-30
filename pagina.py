@@ -37,12 +37,7 @@ def MQTT_TH(client):
     # The callback for when a PUBLISH message is received from the server.
     def on_message(client, userdata, msg):
         data = json.loads(msg.payload)
-        print(data[0])
-        print(data[1])
-        with open('raw_data.csv', 'a') as f_object:
-            data_csv = [data[0],data[1]]
-            writer_object = writer(f_object)
-            writer_object.writerow(data_csv)
+        print("Oi")
 
     #client = mqtt.Client()
     client.on_connect = on_connect
