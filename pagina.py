@@ -34,8 +34,8 @@ def MQTT_TH(client):
     def on_message(client, userdata, msg):
         #print(json.loads(msg.payload))
         data = json.loads(msg.payload)
-        print(data[0][0])
-        df.append({"pm": data[0][0], "times": data[0][1]}, ignore_index = True)
+        print(data)
+        #...df.append({"pm": data[0][0], "times": data[0][1]}, ignore_index = True)
         #df1 = {"pm": json.loads(msg.payload)[0], "times": json.loads(msg.payload)[1]}
         #pd.concat([df, df1])
         
