@@ -32,13 +32,13 @@ def MQTT_TH(client):
  
     # The callback for when a PUBLISH message is received from the server.
     def on_message(client, userdata, msg):
-        print(msg.payload.decode())
+        #print(msg.payload.decode())
         data = msg.payload.decode()
         #print("data")
         #print(data)
-        #df.append({"pm": data[0], "times": data[1]}, ignore_index = True)
-        #st.dataframe(df)
-        #print(df)
+        df.append({"pm": data[0], "times": data[1]}, ignore_index = True)
+        st.dataframe(df)
+        print(df)
         
         
 
