@@ -8,6 +8,7 @@ import streamlit as st
 import pandas as pd
 import json
 import numpy as np
+import matplotlib.pyplot as plt
 import streamlit as st
 import paho.mqtt.client as mqtt
 import threading as th
@@ -19,6 +20,13 @@ st_autorefresh(interval=5000)
 def grafico(msg):
     result = json.loads(msg.payload)
     st.write(result)
+    fig, ax = plt.subplots(nrows=2, sharex=True)
+    times = librosa.times_like(result)
+    ax[0].semilogy(times, rms[0], label='RMS Energy')
+    ax[0].set(xticks=[])
+    ax[0].legend()
+    ax[0].label_outer()
+    
 
 #MQTT Thread Function
 def MQTT_TH(client):   

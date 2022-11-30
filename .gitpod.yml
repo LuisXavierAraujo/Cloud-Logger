@@ -5,6 +5,7 @@ tasks:
       python -m pip install scipy   
       sudo pip3 install streamlit
       sudo pip3 install streamlit-autorefresh
+      sudo pip3 install matplotlib
       sudo apt install -y mosquitto
       sudo apt install mosquitto-clients
       sudo service mosquitto start
