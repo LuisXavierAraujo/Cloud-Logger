@@ -4,6 +4,7 @@ Created on Sun Nov 27 20:51:34 2022
 
 @author: luise
 """
+import csv
 import streamlit as st
 import pandas as pd
 import json
@@ -36,8 +37,17 @@ def MQTT_TH(client):
  
     # The callback for when a PUBLISH message is received from the server.
     def on_message(client, userdata, msg):
+        df = pd.DataFrame(columns = ['PM', 'Times'])
         data = json.loads(msg.payload)
-        print("Oi")
+        #list1 = np.random.randn(1,20)[0].tolist()
+        #list2 = np.random.randn(1,20)[0].tolist()
+        #df = df.append({'PM' : list1, 'Times' : list2}, ignore_index = True)
+        df = pd.DataFrame(columns = ['lista1', 'lista2', 'lista3'])
+        list1 = np.random.randn(1,2)[0].tolist()
+        list2 = np.random.randn(1,2)[0].tolist()
+        list3 = np.random.randn(1,2)[0].tolist()
+        df = df.append({'lista1' : list1, 'lista2' : list2, 'lista3': list3}, ignore_index = True)
+        df.to_csv('current_data.csv', index=False)
 
     #client = mqtt.Client()
     client.on_connect = on_connect
@@ -51,6 +61,21 @@ if 'mqttThread' not in st.session_state:
     add_script_run_ctx(st.session_state.mqttThread)
     st.session_state.mqttThread.start()
 
+
+
+with open("current_data.csv", 'r') as file:
+    print("Entrei")
+    csvreader = csv.reader(file)
+    print("Entrei 2")
+    count = 0
+    for row in csvreader:
+        if(count==1):               
+            a = json.loads(row[0])
+            b = json.loads(row[1])
+            print("Entrei 3")
+            print(a)
+            print(b)
+            count = count + 1
 
 #botão
 if st.checkbox('iniciar gravação'):
