@@ -12,6 +12,20 @@ import librosa as lib
 fs = 44100
 second = 4
 
+# -*- coding: utf-8 -*-
+"""
+Created on Fri Nov 25 17:05:30 2022
+@author: luise
+"""
+import paho.mqtt.client as mqtt
+import threading as th
+import sounddevice as sd
+from scipy.io.wavfile import write
+import librosa as lib
+
+fs = 44100
+second = 4
+
 #MQTT Thread Function
 
 def MQTT_TH(client):    
@@ -32,8 +46,8 @@ def MQTT_TH(client):
         pm = lib.feature.rms(y=x,  frame_length=44100)
         #bytearray ver esta parte do envio de daos -> receber uma string aqui
         #<- enviar bytearray par ao outro lado
-        a_bytearray = bytearray(pm)
-        client.publish("luisaraujo/dados", a_bytearray)
+        pm = str(pm.tolist())
+        client.publish("luisaraujo/dados", pm)
 
     print('Incializing MQTT')
     #client = mqtt.Client()
@@ -46,5 +60,3 @@ def MQTT_TH(client):
 
 t = th.Thread(target=MQTT_TH, args=[mqtt.Client()])
 t.start()
-    
-
