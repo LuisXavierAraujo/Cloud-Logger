@@ -6,7 +6,8 @@ Created on Sun Nov 27 20:51:34 2022
 """
 import streamlit as st
 import pandas as pd
-
+import json
+import numpy as np
 import streamlit as st
 import paho.mqtt.client as mqtt
 import threading as th
@@ -26,10 +27,15 @@ def MQTT_TH(client):
  
     # The callback for when a PUBLISH message is received from the server.
     def on_message(client, userdata, msg):
-        value = list(msg.payload)
-        for i in range(len(value)):
-           print(value[i])
-        
+        result = json.loads(msg.payload)
+        #chart_data = pd.DataFrame(np.transpose(result))
+        #print(chart_data)
+        #st.line_chart(chart_data)
+        chart_data = pd.DataFrame(
+        np.random.randn(20, 3),
+        columns=['a', 'b', 'c'])
+        st.line_chart(chart_data)
+
     #client = mqtt.Client()
     client.on_connect = on_connect
     client.on_message = on_message
@@ -41,13 +47,12 @@ if 'mqttThread' not in st.session_state:
     st.session_state.mqttThread = th.Thread(target=MQTT_TH, args=[st.session_state.mqttClient])
     add_script_run_ctx(st.session_state.mqttThread)
     st.session_state.mqttThread.start()
-    
+
 #botão
 if st.checkbox('iniciar gravação'):
     st.session_state.mqttClient.publish("luisaraujo/pedido", payload="start")
     print("Pedido Enviado")
-    
-    
+
 #df = pd.DataFrame(columns = ['Teste1', 'Teste2', 'Teste3'])
 #df = df.append({'Teste1' : "olá", 'Teste2' : 77, 'Teste3': 56}, ignore_index = True)
 

@@ -5,6 +5,7 @@ Created on Fri Nov 25 17:05:30 2022
 @author: luise
 """
 import paho.mqtt.client as mqtt
+import json
 
 # The callback for when the client receives a CONNACK response from the server.
 def on_connect(client, userdata, flags, rc):
@@ -16,9 +17,8 @@ def on_connect(client, userdata, flags, rc):
 # The callback for when a PUBLISH message is received from the server.
 def on_message(client, userdata, msg):
     print(msg.topic)
-    value = list(msg.payload)
-    for i in range(len(value)):
-        print(value[i])
+    msg = json.loads(msg.payload)
+    print(msg[0])
 
 client = mqtt.Client()
 client.on_connect = on_connect
