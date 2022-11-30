@@ -35,7 +35,7 @@ def MQTT_TH(client):
         #print(msg.payload.decode())
         data = msg.payload.decode()
         print("data")
-        print(data)
+        print(data[0])
         #df.append({"pm": data[0], "times": data[1]}, ignore_index = True)
         #st.dataframe(df)
         #print(df)
