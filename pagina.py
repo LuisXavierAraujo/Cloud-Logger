@@ -15,7 +15,7 @@ import threading as th
 from streamlit.runtime.scriptrunner.script_run_context import add_script_run_ctx
 from streamlit_autorefresh import st_autorefresh
 
-df = pd.DataFrame(columns = ['pm'])
+df = pd.DataFrame(columns = ['pm','times'])
 st_autorefresh(interval=5000)
 st.dataframe(df)
 
@@ -33,7 +33,10 @@ def MQTT_TH(client):
     # The callback for when a PUBLISH message is received from the server.
     def on_message(client, userdata, msg):
         print(json.loads(msg.payload))
-        df.concat(json.loads(msg.payload))
+        data = json.loads(msg.payload)
+        df.append({"pm": data[0], "times": data[1]}, ignore_index = True)
+        #df1 = {"pm": json.loads(msg.payload)[0], "times": json.loads(msg.payload)[1]}
+        #pd.concat([df, df1])
         
 
     #client = mqtt.Client()
