@@ -14,13 +14,17 @@ import paho.mqtt.client as mqtt
 import threading as th
 from streamlit.runtime.scriptrunner.script_run_context import add_script_run_ctx
 from streamlit_autorefresh import st_autorefresh
+from csv import writer
 
-df = pd.DataFrame(columns = ['pm','times'])
+first_time = True
+
+if(first_time):
+    df = pd.DataFrame(columns = ['pm','times'])
+    df.to_csv('raw_data.csv', index=False)
+    first_time = False
+
 st_autorefresh(interval=5000)
-st.dataframe(df)
-
-
-    
+#st.dataframe(df)  
 
 #MQTT Thread Function
 def MQTT_TH(client):   
@@ -32,16 +36,13 @@ def MQTT_TH(client):
  
     # The callback for when a PUBLISH message is received from the server.
     def on_message(client, userdata, msg):
-        #print(msg.payload.decode())
-        data = msg.payload.decode()
-        print(data)
-        #print("data")
-        #print(data)
-        #df.append({"pm": data[0], "times": data[1]}, ignore_index = True)
-        #st.dataframe(df)
-        #print(df)
-        
-        
+        data = json.loads(msg.payload)
+        print(data[0])
+        print(data[1])
+        with open('raw_data.csv', 'a') as f_object:
+            data_csv = [data[0],data[1]]
+            writer_object = writer(f_object)
+            writer_object.writerow(data_csv)
 
     #client = mqtt.Client()
     client.on_connect = on_connect
@@ -54,6 +55,7 @@ if 'mqttThread' not in st.session_state:
     st.session_state.mqttThread = th.Thread(target=MQTT_TH, args=[st.session_state.mqttClient])
     add_script_run_ctx(st.session_state.mqttThread)
     st.session_state.mqttThread.start()
+
 
 #botão
 if st.checkbox('iniciar gravação'):
