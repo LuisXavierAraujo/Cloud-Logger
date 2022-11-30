@@ -16,6 +16,9 @@ from streamlit_autorefresh import st_autorefresh
 
 
 st_autorefresh(interval=5000)
+def grafico(msg):
+    result = json.loads(msg.payload)
+    st.write(result)
 
 #MQTT Thread Function
 def MQTT_TH(client):   
@@ -27,14 +30,8 @@ def MQTT_TH(client):
  
     # The callback for when a PUBLISH message is received from the server.
     def on_message(client, userdata, msg):
-        result = json.loads(msg.payload)
-        #chart_data = pd.DataFrame(np.transpose(result))
-        #print(chart_data)
-        #st.line_chart(chart_data)
-        chart_data = pd.DataFrame(
-        np.random.randn(20, 3),
-        columns=['a', 'b', 'c'])
-        st.line_chart(chart_data)
+        grafico(msg)
+        
 
     #client = mqtt.Client()
     client.on_connect = on_connect
