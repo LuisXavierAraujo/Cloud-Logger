@@ -36,8 +36,7 @@ def MQTT_TH(client):
         data = msg.payload.decode()
         #print(data)
         df.append({"pm": data[0], "times": data[1]}, ignore_index = True)
-        df1 = {"pm": json.loads(msg.payload)[0], "times": json.loads(msg.payload)[1]}
-        #pd.concat([df, df1])
+        
         
 
     #client = mqtt.Client()
