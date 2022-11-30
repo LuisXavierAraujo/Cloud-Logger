@@ -17,13 +17,6 @@ from streamlit.runtime.scriptrunner.script_run_context import add_script_run_ctx
 from streamlit_autorefresh import st_autorefresh
 from csv import writer
 
-first_time = True
-
-if(first_time):
-    df = pd.DataFrame(columns = ['pm','times'])
-    df.to_csv('raw_data.csv', index=False)
-    first_time = False
-
 st_autorefresh(interval=5000)
 #st.dataframe(df)  
 
@@ -42,6 +35,7 @@ def MQTT_TH(client):
         #list1 = np.random.randn(1,20)[0].tolist()
         #list2 = np.random.randn(1,20)[0].tolist()
         #df = df.append({'PM' : list1, 'Times' : list2}, ignore_index = True)
+        print("Recebi")
         df = pd.DataFrame(columns = ['lista1', 'lista2', 'lista3'])
         list1 = np.random.randn(1,2)[0].tolist()
         list2 = np.random.randn(1,2)[0].tolist()
@@ -63,19 +57,20 @@ if 'mqttThread' not in st.session_state:
 
 
 
-with open("current_data.csv", 'r') as file:
+with open("/workspace/Cloud-Logger/current_data.csv", 'r') as file:
     print("Entrei")
     csvreader = csv.reader(file)
     print("Entrei 2")
     count = 0
     for row in csvreader:
-        if(count==1):               
+        print("Entrei 3")
+        if(count==1):        
+            print("Entrei4")       
             a = json.loads(row[0])
             b = json.loads(row[1])
-            print("Entrei 3")
             print(a)
             print(b)
-            count = count + 1
+        count = count + 1
 
 #botão
 if st.checkbox('iniciar gravação'):
