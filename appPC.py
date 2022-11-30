@@ -12,21 +12,23 @@ import librosa as lib
 fs = 44100
 second = 4
 
-# -*- coding: utf-8 -*-
-"""
-Created on Fri Nov 25 17:05:30 2022
-@author: luise
-"""
-import paho.mqtt.client as mqtt
-import threading as th
-import sounddevice as sd
-from scipy.io.wavfile import write
-import librosa as lib
-
-fs = 44100
-second = 4
-
 #MQTT Thread Function
+
+def grava():
+    record_voice = sd.rec( int( second * fs ) , samplerate = fs , channels = 2 )
+    sd.wait()
+    write("som.wav", fs , record_voice )
+    x, sr = lib.load("som.wav") 
+    pm = lib.feature.rms(y=x)
+    times = lib.times_like(pm)
+    pm2 = pm[0]   
+    pm2 = pm2.tolist()     
+    times = times.tolist()
+    dados = [pm2, times]
+    print(dados)
+    dados = str(dados)
+    
+    return dados
 
 def MQTT_TH(client):    
     def on_connect(client, userdata, flags, rc):
@@ -38,16 +40,10 @@ def MQTT_TH(client):
     # The callback for when a PUBLISH message is received from the server.
     def on_message(client, userdata, msg):
         print(msg.topic+" "+str(msg.payload))
-        #print('Message received: ' + str(msg.payload))
-        record_voice = sd.rec( int( second * fs ) , samplerate = fs , channels = 2 )
-        sd.wait()
-        write("som.wav", fs , record_voice )
-        x, sr = lib.load("som.wav") 
-        pm = lib.feature.rms(y=x,  frame_length=44100)
-        #bytearray ver esta parte do envio de daos -> receber uma string aqui
-        #<- enviar bytearray par ao outro lado
-        pm = str(pm.tolist())
-        client.publish("luisaraujo/dados", pm)
+        #print('Message received: ' + str(msg.payload))        
+        dados = grava()
+        #print(dados)
+        client.publish("luisaraujo/dados", dados)
 
     print('Incializing MQTT')
     #client = mqtt.Client()
