@@ -1,0 +1,74 @@
+# -*- coding: utf-8 -*-
+"""
+Created on Sun Nov 27 20:51:34 2022
+
+@author: luise
+"""
+import streamlit as st
+import pandas as pd
+import json
+import numpy as np
+import matplotlib.pyplot as plt
+import streamlit as st
+import paho.mqtt.client as mqtt
+import threading as th
+from streamlit.runtime.scriptrunner.script_run_context import add_script_run_ctx
+from streamlit_autorefresh import st_autorefresh
+from csv import writer
+
+st.title("Cloud Logger - Inês Botelho")
+st.markdown('Desenvolvimento de um data logger de informação extraída do som permitindo a guardar e visualizar essa informação recolhida ao longo de um intervalo de tempo superior a 10minutos')
+import streamlit as st
+import pandas as pd
+import json
+import numpy as np
+import matplotlib.pyplot as plt
+import streamlit as st
+import paho.mqtt.client as mqtt
+import threading as th
+from streamlit.runtime.scriptrunner.script_run_context import add_script_run_ctx
+from streamlit_autorefresh import st_autorefresh
+from csv import writer
+
+first_time = True
+
+if(first_time):
+    df = pd.DataFrame(columns = ['Teste1', 'Teste2', 'Teste3'])
+    first_time = False
+
+st_autorefresh(interval=5000)
+
+#MQTT Thread Function
+def MQTT_TH(client):   
+
+    def on_connect(client, userdata, flags, rc):
+        # Subscribing in on_connect() means that if we lose the connection and
+        # reconnect then subscriptions will be renewed.        
+        client.subscribe("luisaraujo/dados")
+ 
+    # The callback for when a PUBLISH message is received from the server.
+    def on_message(client, userdata, msg):
+        global df
+        data = json.loads(msg.payload)
+        print("Oi")
+        df = df.append({'Teste1' : "olá", 'Teste2' : 77, 'Teste3': 56}, ignore_index = True)
+        df.to_csv('data.csv', index=False)
+
+    #client = mqtt.Client()
+    client.on_connect = on_connect
+    client.on_message = on_message
+    client.connect("mqtt.eclipseprojects.io", 1883, 60)
+    client.loop_forever()
+
+if 'mqttThread' not in st.session_state:
+    st.session_state.mqttClient = mqtt.Client()
+    st.session_state.mqttThread = th.Thread(target=MQTT_TH, args=[st.session_state.mqttClient])
+    add_script_run_ctx(st.session_state.mqttThread)
+    st.session_state.mqttThread.start()
+
+
+#botão
+if st.checkbox('iniciar gravação'):
+    st.session_state.mqttClient.publish("luisaraujo/pedido", payload="start")
+    print("Pedido Enviado")
+
