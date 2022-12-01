@@ -42,7 +42,7 @@ def MQTT_TH(client):
         data = json.loads(msg.payload)
         #print(data[2])
         data = {'PM': data[0],'Times': data[1],'STFT': data[2]}
-        #dataframe = pd.DataFrame(data)
+        dataframe = pd.DataFrame(data)
         print(data)
 
         
