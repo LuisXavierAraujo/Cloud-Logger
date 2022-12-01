@@ -12,6 +12,7 @@ from streamlit_autorefresh import st_autorefresh
 from csv import writer
 import plotly.express as px
 import librosa as lib
+import librosa.display
 
 
 st.graphviz_chart('''
@@ -49,7 +50,7 @@ def MQTT_TH(client):
         #dataframe = pd.concat([df1, df2], axis=1)
         #print(dataframe)
         st.session_state['current_data1'] = df1     
-        st.session_state['current_data2'] = df2     
+        st.session_state['current_data2'] = data[2]     
     
     dataframe_final = pd.DataFrame(columns = ['PM', 'Times', 'STFT1'])
     st.session_state['dataframe_final'] = dataframe_final
@@ -79,12 +80,15 @@ if st.checkbox('iniciar gravação'):
         df2 = st.session_state['current_data2']
         st.markdown("### First Chart")
         #fig = px.density_heatmap(data_frame=df2)
-        fig = librosa.display.specshow(chroma, y_axis='chroma', x_axis='time', ax=ax[1])
+        df2 = np.asarray(df2)
+        abso = np.abs(df2, np.max)
+        D = librosa.amplitude_to_db(abso)
+        fig = lib.display.specshow(df2, y_axis='chroma', x_axis='time')
         st.write(fig)
         #stft = df['STFT'].tolist()
 
         dataframe_final = st.session_state['dataframe_final']
-        dataframe_final = dataframe_final.append({'PM' : pm, 'Times' : times, 'STFT': stft}, ignore_index = True)
+        dataframe_final = dataframe_final.append({'PM' : pm, 'Times' : times}, ignore_index = True)
         st.session_state['dataframe_final'] = dataframe_final
 
         
