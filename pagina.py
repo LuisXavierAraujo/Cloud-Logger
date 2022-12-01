@@ -16,7 +16,7 @@ import threading as th
 from streamlit.runtime.scriptrunner.script_run_context import add_script_run_ctx
 from streamlit_autorefresh import st_autorefresh
 from csv import writer
-
+entrei = False
 st_autorefresh(interval=5000)
 #st.dataframe(df)  
 
@@ -30,6 +30,7 @@ def MQTT_TH(client):
  
     # The callback for when a PUBLISH message is received from the server.
     def on_message(client, userdata, msg):
+        entrei = True
         df = pd.DataFrame(columns = ['PM', 'Times'])
         data = json.loads(msg.payload)
         df = df.append({'PM' : data[0], 'Times' : data[1]}, ignore_index = True)
@@ -74,10 +75,16 @@ if 'mqttThread' not in st.session_state:
 #            print(a)
 #            print(b)
 #        count = count + 1
-df = pd.read_csv('current_data.csv')
-st.line_chart(data = df, x="Times", y="PM")
-#st.line_chart(b)
-#st.line_chart(c)
+if not entrei:
+    print("Falso")
+if entrei:
+    print("Entrei")
+    df = pd.read_csv('/workspace/Cloud-Logger/current_data.csv')
+    print(df)
+    print(type(df))
+    st.line_chart(data = df, x="PM", y="Times")
+    #st.line_chart(b)
+    #st.line_chart(c)
 
 #botão
 if st.checkbox('iniciar gravação'):
