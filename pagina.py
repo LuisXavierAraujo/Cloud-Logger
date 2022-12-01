@@ -79,6 +79,7 @@ if st.checkbox('iniciar gravação'):
         times = df1['Times'].tolist()
 
         fig, ax = plt.subplots()
+        fig2, ax2 = plt.subplots()
         df2 = st.session_state['current_data2']
         st.markdown("### First Chart")
         #fig = px.density_heatmap(data_frame=df2)
@@ -87,15 +88,18 @@ if st.checkbox('iniciar gravação'):
         abso = np.abs(df2)
         D = librosa.amplitude_to_db(df2)**2
         img = librosa.display.specshow(librosa.amplitude_to_db(D), y_axis='log', x_axis='time', ax=ax)
-        #img = lib.display.specshow(df2, y_axis='chroma', x_axis='time')
+        img2 = lib.display.specshow(df2, y_axis='chroma', x_axis='time')
         fig.colorbar(img, ax=ax, format="%+2.f dB")
+        fig2.colorbar(img2, ax=ax2, format="%+2.f dB")
         st.container().pyplot(fig)
-        # st.write(fig.colorbar())
-        #plt.colorbar(fig, format="%+2.f dB")
-        #stft = df['STFT'].tolist()
+        st.container().pyplot(fig2)
 
+        
+        data2 = {'STFT1': df2[0].tolist(),'STFT2': df2[1].tolist(),'STFT3': df2[2].tolist(),'STFT4': df2[3].tolist(),'STFT5': df2[4].tolist(),'STFT6': df2[5].tolist(),'STFT7': df2[6].tolist()}
+        data2 = pd.DataFrame(data2)
         dataframe_final = st.session_state['dataframe_final']
         dataframe_final = dataframe_final.append({'PM' : pm, 'Times' : times}, ignore_index = True)
+        dataframe = pd.concat([dataframe_final, data2], axis=1)
         st.session_state['dataframe_final'] = dataframe_final
 
         
