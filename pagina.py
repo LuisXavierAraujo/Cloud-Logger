@@ -11,6 +11,7 @@ from streamlit.runtime.scriptrunner.script_run_context import add_script_run_ctx
 from streamlit_autorefresh import st_autorefresh
 from csv import writer
 import plotly.express as px
+import librosa as lib
 
 
 st.graphviz_chart('''
@@ -45,11 +46,12 @@ def MQTT_TH(client):
         
         df1 = pd.DataFrame(data1)
         df2 = pd.DataFrame(data2)
-        dataframe = pd.concat([dfq, df2], axis=1)
-
-        st.session_state['current_data'] = dataframe        
+        #dataframe = pd.concat([df1, df2], axis=1)
+        #print(dataframe)
+        st.session_state['current_data1'] = df1     
+        st.session_state['current_data2'] = df2     
     
-    dataframe_final = pd.DataFrame(columns = ['PM', 'Times', 'STFT'])
+    dataframe_final = pd.DataFrame(columns = ['PM', 'Times', 'STFT1'])
     st.session_state['dataframe_final'] = dataframe_final
     st.session_state['plot'] = True
     #client = mqtt.Client()
@@ -68,19 +70,18 @@ if 'mqttThread' not in st.session_state:
 if st.checkbox('iniciar gravação'):
     st.session_state.mqttClient.publish("luisaraujo/pedido", payload="start")
     if(st.session_state['plot']):
-        df = st.session_state['current_data']
-        print(df)
+        df1 = st.session_state['current_data1']
+        #print(df)
         #rms energy
-        st.line_chart(data = df, x="Times", y="PM")
-        pm = df['PM'].tolist()
-        times = df['Times'].tolist()
-
+        st.line_chart(data = df1, x="Times", y="PM")
+        pm = df1['PM'].tolist()
+        times = df1['Times'].tolist()
+        df2 = st.session_state['current_data2']
         st.markdown("### First Chart")
-        fig = px.density_heatmap(
-            data_frame=df, y=np.array.df["STFT"], x="Times"
-        )
+        #fig = px.density_heatmap(data_frame=df2)
+        fig = librosa.display.specshow(chroma, y_axis='chroma', x_axis='time', ax=ax[1])
         st.write(fig)
-        stft = df['STFT'].tolist()
+        #stft = df['STFT'].tolist()
 
         dataframe_final = st.session_state['dataframe_final']
         dataframe_final = dataframe_final.append({'PM' : pm, 'Times' : times, 'STFT': stft}, ignore_index = True)
