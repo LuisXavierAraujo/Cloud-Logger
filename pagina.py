@@ -77,14 +77,21 @@ if st.checkbox('iniciar gravação'):
         st.line_chart(data = df1, x="Times", y="PM")
         pm = df1['PM'].tolist()
         times = df1['Times'].tolist()
+
+        fig, ax = plt.subplots()
         df2 = st.session_state['current_data2']
         st.markdown("### First Chart")
         #fig = px.density_heatmap(data_frame=df2)
-        df2 = np.asarray(df2)
-        abso = np.abs(df2, np.max)
-        D = librosa.amplitude_to_db(abso)
-        fig = lib.display.specshow(df2, y_axis='chroma', x_axis='time')
-        st.write(fig)
+        df2 = list(df2)
+        df2 = np.array(df2)
+        abso = np.abs(df2)
+        D = librosa.amplitude_to_db(df2)**2
+        img = librosa.display.specshow(librosa.amplitude_to_db(D), y_axis='log', x_axis='time', ax=ax)
+        #img = lib.display.specshow(df2, y_axis='chroma', x_axis='time')
+        fig.colorbar(img, ax=ax, format="%+2.f dB")
+        st.container().pyplot(fig)
+        # st.write(fig.colorbar())
+        #plt.colorbar(fig, format="%+2.f dB")
         #stft = df['STFT'].tolist()
 
         dataframe_final = st.session_state['dataframe_final']
