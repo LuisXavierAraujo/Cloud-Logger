@@ -32,16 +32,18 @@ def MQTT_TH(client):
     def on_message(client, userdata, msg):
         df = pd.DataFrame(columns = ['PM', 'Times'])
         data = json.loads(msg.payload)
+        df = df.append({'PM' : data[0], 'Times' : data[1]}, ignore_index = True)
+        df.to_csv('current_data.csv', index=False)
         #list1 = np.random.randn(1,20)[0].tolist()
         #list2 = np.random.randn(1,20)[0].tolist()
         #df = df.append({'PM' : list1, 'Times' : list2}, ignore_index = True)
         print("Recebi")
-        df = pd.DataFrame(columns = ['lista1', 'lista2', 'lista3'])
-        list1 = np.random.randn(1,2)[0].tolist()
-        list2 = np.random.randn(1,2)[0].tolist()
-        list3 = np.random.randn(1,2)[0].tolist()
-        df = df.append({'lista1' : list1, 'lista2' : list2, 'lista3': list3}, ignore_index = True)
-        df.to_csv('current_data.csv', index=False)
+        #df = pd.DataFrame(columns = ['lista1', 'lista2', 'lista3'])
+        #list1 = np.random.randn(1,2)[0].tolist()
+        #list2 = np.random.randn(1,2)[0].tolist()
+        #list3 = np.random.randn(1,2)[0].tolist()
+        #df = df.append({'lista1' : list1, 'lista2' : list2, 'lista3': list3}, ignore_index = True)
+        #df.to_csv('current_data.csv', index=False)
 
     #client = mqtt.Client()
     client.on_connect = on_connect
@@ -57,20 +59,25 @@ if 'mqttThread' not in st.session_state:
 
 
 
-with open("/workspace/Cloud-Logger/current_data.csv", 'r') as file:
-    print("Entrei")
-    csvreader = csv.reader(file)
-    print("Entrei 2")
-    count = 0
-    for row in csvreader:
-        print("Entrei 3")
-        if(count==1):        
-            print("Entrei4")       
-            a = json.loads(row[0])
-            b = json.loads(row[1])
-            print(a)
-            print(b)
-        count = count + 1
+#with open("/workspace/Cloud-Logger/current_data.csv", 'r') as file:
+#    print("Entrei")
+#    csvreader = csv.reader(file)
+#    print("Entrei 2")
+#    count = 0
+#    for row in csvreader:
+#        print("Entrei 3")
+#        if(count==1):        
+#            print("Entrei4")       
+#            a = json.loads(row[0])
+#            b = json.loads(row[1])
+#            c = json.loads(row[2])
+#            print(a)
+#            print(b)
+#        count = count + 1
+df = pd.read_csv('current_data.csv')
+st.line_chart(data = df, x="Times", y="PM")
+#st.line_chart(b)
+#st.line_chart(c)
 
 #botão
 if st.checkbox('iniciar gravação'):
