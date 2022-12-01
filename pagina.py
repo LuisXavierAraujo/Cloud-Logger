@@ -40,9 +40,13 @@ def MQTT_TH(client):
     def on_message(client, userdata, msg):
         st.session_state['plot'] = True
         data = json.loads(msg.payload)
-        stft = data[2].tolist()
-        data = {'PM': data[0],'Times': data[1]}
-        dataframe = pd.DataFrame(data)        
+        data1 = {'PM': data[0],'Times': data[1]}
+        data2 = {'STFT1': data[2][0],'STFT2': data[2][1],'STFT3': data[2][2],'STFT4': data[2][3],'STFT5': data[2][4],'STFT6': data[2][5],'STFT7': data[2][6]}
+        
+        df1 = pd.DataFrame(data1)
+        df2 = pd.DataFrame(data2)
+        dataframe = pd.concat([dfq, df2], axis=1)
+
         st.session_state['current_data'] = dataframe        
     
     dataframe_final = pd.DataFrame(columns = ['PM', 'Times', 'STFT'])
