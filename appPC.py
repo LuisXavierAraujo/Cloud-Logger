@@ -21,10 +21,12 @@ def grava():
     x, sr = lib.load("som.wav") 
     pm = lib.feature.rms(y=x)
     times = lib.times_like(pm)
+    stft = lib.feature.chroma_stft(y=x, sr=fs)
     pm2 = pm[0]   
     pm2 = pm2.tolist()     
     times = times.tolist()
-    dados = [pm2, times]
+    stft = stft.tolist()
+    dados = [pm2, times, stft]
     print(dados)
     dados = str(dados)
     
