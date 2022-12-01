@@ -43,16 +43,13 @@ def MQTT_TH(client):
         st.session_state['plot'] = True
         data = json.loads(msg.payload)
         data1 = {'PM': data[0],'Times': data[1]}
-        data2 = {'STFT1': data[2][0],'STFT2': data[2][1],'STFT3': data[2][2],'STFT4': data[2][3],'STFT5': data[2][4],'STFT6': data[2][5],'STFT7': data[2][6]}
-        
-        df1 = pd.DataFrame(data1)
-        df2 = pd.DataFrame(data2)
+        df = pd.DataFrame(data1)
         #dataframe = pd.concat([df1, df2], axis=1)
         #print(dataframe)
-        st.session_state['current_data1'] = df1     
+        st.session_state['current_data1'] = df   
         st.session_state['current_data2'] = data[2]     
     
-    dataframe_final = pd.DataFrame(columns = ['PM', 'Times', 'STFT1'])
+    dataframe_final = pd.DataFrame(columns = ['PM', 'Times','STFT'])
     st.session_state['dataframe_final'] = dataframe_final
     st.session_state['plot'] = True
     #client = mqtt.Client()
@@ -95,11 +92,11 @@ if st.checkbox('iniciar gravação'):
         st.container().pyplot(fig2)
 
         
-        data2 = {'STFT1': df2[0].tolist(),'STFT2': df2[1].tolist(),'STFT3': df2[2].tolist(),'STFT4': df2[3].tolist(),'STFT5': df2[4].tolist(),'STFT6': df2[5].tolist(),'STFT7': df2[6].tolist()}
-        data2 = pd.DataFrame(data2)
+        #data2 = {'STFT1': df2[0].tolist(),'STFT2': df2[1].tolist(),'STFT3': df2[2].tolist(),'STFT4': df2[3].tolist(),'STFT5': df2[4].tolist(),'STFT6': df2[5].tolist(),'STFT7': df2[6].tolist()}
+        #data2 = pd.DataFrame(data2)
         dataframe_final = st.session_state['dataframe_final']
-        dataframe_final = dataframe_final.append({'PM' : pm, 'Times' : times}, ignore_index = True)
-        dataframe = pd.concat([dataframe_final, data2], axis=1)
+        dataframe_final = dataframe_final.append({'PM' : pm, 'Times' : times, 'STFT': df2}, ignore_index = True)
+        #dataframe = pd.concat([dataframe_final, data2], axis=1)
         st.session_state['dataframe_final'] = dataframe_final
 
         
