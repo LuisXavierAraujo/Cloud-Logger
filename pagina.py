@@ -40,14 +40,10 @@ def MQTT_TH(client):
     def on_message(client, userdata, msg):
         st.session_state['plot'] = True
         data = json.loads(msg.payload)
-        #print(data[2])
-        data = {'PM': data[0],'Times': data[1],'STFT': data[2]}
-        dataframe = pd.DataFrame(data)
-        print(data)
-
-        
+        stft = data[2].tolist()
+        data = {'PM': data[0],'Times': data[1]}
+        dataframe = pd.DataFrame(data)        
         st.session_state['current_data'] = dataframe        
-        print(dataframe)
     
     dataframe_final = pd.DataFrame(columns = ['PM', 'Times', 'STFT'])
     st.session_state['dataframe_final'] = dataframe_final
@@ -77,7 +73,7 @@ if st.checkbox('iniciar gravação'):
 
         st.markdown("### First Chart")
         fig = px.density_heatmap(
-            data_frame=df, y="STFT", x="Times"
+            data_frame=df, y=np.array.df["STFT"], x="Times"
         )
         st.write(fig)
         stft = df['STFT'].tolist()
