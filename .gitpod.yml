@@ -7,6 +7,7 @@ tasks:
       sudo pip3 install streamlit
       sudo pip3 install streamlit-autorefresh
       sudo pip3 install matplotlib
+      sudo pip3 install plotly_express
       sudo apt install -y mosquitto
       sudo apt install mosquitto-clients
       sudo service mosquitto start

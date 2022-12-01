@@ -10,7 +10,23 @@ import threading as th
 from streamlit.runtime.scriptrunner.script_run_context import add_script_run_ctx
 from streamlit_autorefresh import st_autorefresh
 from csv import writer
+import plotly.express as px
 
+
+st.graphviz_chart('''
+    digraph {
+        subgraph {
+            microfone -> computador
+        computador -> mqtt_dados [color=blue, style=dotted, shape=box]
+        mqtt_dados -> gitpod [color=blue, style=dotted]
+        mqtt_pedido -> computador [color=blue, style=dotted]
+        gitpod -> mqtt_pedido [color=blue, style=dotted]        
+        mqtt_pedido  [shape=box]
+        mqtt_dados  [shape=box]
+        rank = same; mqtt_pedido; mqtt_dados;
+        }
+    }
+''')
 st_autorefresh(interval=5000)  
 
 #MQTT Thread Function
@@ -31,7 +47,7 @@ def MQTT_TH(client):
     
     dataframe_final = pd.DataFrame(columns = ['PM', 'Times'])
     st.session_state['dataframe_final'] = dataframe_final
-    st.session_state['plot'] = False
+    st.session_state['plot'] = True
     #client = mqtt.Client()
     client.on_connect = on_connect
     client.on_message = on_message
@@ -50,6 +66,7 @@ if st.checkbox('iniciar gravação'):
     if(st.session_state['plot']):
         df = st.session_state['current_data']
         print(df)
+        #rms energy
         st.line_chart(data = df, x="Times", y="PM")
         pm = df['PM'].tolist()
         times = df['Times'].tolist()
@@ -57,8 +74,16 @@ if st.checkbox('iniciar gravação'):
         dataframe_final = dataframe_final.append({'PM' : pm, 'Times' : times}, ignore_index = True)
         st.session_state['dataframe_final'] = dataframe_final
 
+        st.markdown("### First Chart")
+        fig = px.density_heatmap(
+            data_frame=df, y="age_new", x="marital"
+        )
+        st.write(fig)
+
 else:
      st.session_state['plot'] = False
+
+
 
 ## Guardar os dados
 dataframe_final = st.session_state['dataframe_final']
