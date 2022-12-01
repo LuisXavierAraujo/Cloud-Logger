@@ -40,12 +40,12 @@ def MQTT_TH(client):
     def on_message(client, userdata, msg):
         st.session_state['plot'] = True
         data = json.loads(msg.payload)
-        data = {'PM': data[0],'Times': data[1]}
+        data = {'PM': data[0],'Times': data[1], 'STFT': data[2]}
         dataframe = pd.DataFrame(data)
         st.session_state['current_data'] = dataframe        
         print(dataframe)
     
-    dataframe_final = pd.DataFrame(columns = ['PM', 'Times'])
+    dataframe_final = pd.DataFrame(columns = ['PM', 'Times', 'STFT'])
     st.session_state['dataframe_final'] = dataframe_final
     st.session_state['plot'] = True
     #client = mqtt.Client()
@@ -70,15 +70,19 @@ if st.checkbox('iniciar gravação'):
         st.line_chart(data = df, x="Times", y="PM")
         pm = df['PM'].tolist()
         times = df['Times'].tolist()
-        dataframe_final = st.session_state['dataframe_final']
-        dataframe_final = dataframe_final.append({'PM' : pm, 'Times' : times}, ignore_index = True)
-        st.session_state['dataframe_final'] = dataframe_final
 
         st.markdown("### First Chart")
         fig = px.density_heatmap(
-            data_frame=df, y="age_new", x="marital"
+            data_frame=df, y="STFT", x="Times"
         )
         st.write(fig)
+        stft = df['STFT'].tolist()
+
+        dataframe_final = st.session_state['dataframe_final']
+        dataframe_final = dataframe_final.append({'PM' : pm, 'Times' : times, 'STFT': stft}, ignore_index = True)
+        st.session_state['dataframe_final'] = dataframe_final
+
+        
 
 else:
      st.session_state['plot'] = False
