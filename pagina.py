@@ -100,8 +100,9 @@ if add_radio == 'Iniciar aquisição':
             mime='text/csv',
         )
     else:
-        with st.spinner("A aguardar a primeira aquisição..."):
-            time.sleep(4.5)
+        st.write("A aguardar a primeira aquisição...")
+        #st.spinner("A aguardar a primeira aquisição...")
+    
 
         
 
